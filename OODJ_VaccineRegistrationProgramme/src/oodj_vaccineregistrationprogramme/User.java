@@ -5,12 +5,25 @@
  */
 package oodj_vaccineregistrationprogramme;
 
-public class User {
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class User extends IO{
     protected String userID,Username,Password,AccType,Email;
-    public String Fullmame;
+    public String Fullname;
     
     
-    public User(){       
+    public User(String un,String pw,String email,String name){ 
+        super("user.txt");
+        this.Username = un;
+        this.Password = pw;
+        this.Email = email;
+        this.Fullname = name;
+        
     }
 
     // Getter and Setter ---------------------------------------------------------------------------------------------------
@@ -55,19 +68,52 @@ public class User {
     }
 
     public String getFullmame() {
-        return Fullmame;
+        return Fullname;
     }
 
     public void setFullmame(String Fullmame) {
-        this.Fullmame = Fullmame;
+        this.Fullname = Fullname;
     }
     // End of Getter and Setter -----------------------------------------------------------------------------------------
     
-//    public boolean Login(String username,String password){
-//        String username_file;
-//        String password_file;
-//        
-//        return username.equals(username_file) && password.equals(password_file);
-//    }
+    public void Login(String username,String password){
+        try{
+            String inputUsername = username;
+            String inputPassword = password;
+        Scanner read = new Scanner(new File(super.path + super.getFileName()));
+        
+        
+        
+           }catch (FileNotFoundException e){
+            System.out.println("Unable to open file due to "+e);
+         }
     
+    
+    
+    }
+    
+    public void Register(){
+        String u = this.Username;
+        String p = this.Password;
+        String em = this.Email;
+        String fn = this.Fullname;
+        String at = "People";
+
+    }
+    
+    
+    
+    
+    
+    public void Write(String fileName){
+        try {
+               BufferedWriter bw = new BufferedWriter(new FileWriter((super.path + super.getFileName()),true));
+              bw.write(u +"/"+p +"/"+em +"/"+ fn +"/"+ at +"\n");
+              
+                bw.flush();
+               bw.close();
+           } catch (IOException e) {
+              System.out.println(e);
+        }
+    }
 }

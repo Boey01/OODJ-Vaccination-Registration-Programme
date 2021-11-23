@@ -9,13 +9,15 @@ package oodj_vaccineregistrationprogramme;
  *
  * @author devil
  */
-public class File {
+public abstract class IO {
+    
     	/**
 	 * Encapsulate the fileName using private keyword
 	 */
-	private final String fileName;
+        public static String path = "src/";
+    	private String fileName;
 
-	public File(String fileName) {
+	public IO(String fileName) {
 		
 		this.fileName = fileName;
 	}
@@ -23,5 +25,8 @@ public class File {
 	protected String getFileName() {
 		return fileName;
 	}
+        
+        public void Write(String fileName){};
+        public void Read(String fileName){};
 	
 }
