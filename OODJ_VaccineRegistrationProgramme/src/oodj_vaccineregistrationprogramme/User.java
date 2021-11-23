@@ -63,11 +63,11 @@ public class User {
     }
     // End of Getter and Setter -----------------------------------------------------------------------------------------
     
-    public boolean Login(String username,String password){
-        String username_file;
-        String password_file;
-        
-      //  return username.equals(username_file) && password.equals(password_file);
-    }
+//    public boolean Login(String username,String password){
+//        String username_file;
+//        String password_file;
+//        
+//        return username.equals(username_file) && password.equals(password_file);
+//    }
     
 }
