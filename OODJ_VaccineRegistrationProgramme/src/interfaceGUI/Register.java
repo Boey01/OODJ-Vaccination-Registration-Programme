@@ -127,7 +127,8 @@ public class Register extends javax.swing.JFrame {
      String name     = txtFullname.getText();
         
      User usr = new User(username,password,email,name);
-     usr.Register();
+//     usr.Register();
+        usr.test();
      
      JOptionPane.showMessageDialog(null,"Added Successfully", "Success",JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnConfirmActionPerformed

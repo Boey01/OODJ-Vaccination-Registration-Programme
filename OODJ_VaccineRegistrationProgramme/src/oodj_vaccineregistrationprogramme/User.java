@@ -5,17 +5,21 @@
  */
 package oodj_vaccineregistrationprogramme;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class User extends IO{
     protected String userID,Username,Password,AccType,Email;
     public String Fullname;
-    
+    protected List<User> userlist = new ArrayList<>();
     
     public User(String un,String pw,String email,String name){ 
         super("user.txt");
@@ -23,6 +27,16 @@ public class User extends IO{
         this.Password = pw;
         this.Email = email;
         this.Fullname = name;
+        
+    }
+    
+       public User(String id,String un,String pw,String email,String name, String acctype){ 
+        super("user.txt");
+        this.Username = un;
+        this.Password = pw;
+        this.Email = email;
+        this.Fullname = name;
+        this.AccType = acctype;
         
     }
 
@@ -93,27 +107,57 @@ public class User extends IO{
     }
     
     public void Register(){
+        
+        String directory= super.getDirectory();
+        Write(directory);
+    }
+    
+    public void test(){
+        String directory= super.getDirectory();
+        Read(directory);
+        for(int i = 0; i < userlist.size(); i++)
+        System.out.println(userlist.get(i));
+    }
+    
+    
+    
+    public void Write(String file){
         String u = this.Username;
         String p = this.Password;
         String em = this.Email;
         String fn = this.Fullname;
         String at = "People";
-
-    }
-    
-    
-    
-    
-    
-    public void Write(String fileName){
+        
         try {
-               BufferedWriter bw = new BufferedWriter(new FileWriter((super.path + super.getFileName()),true));
-              bw.write(u +"/"+p +"/"+em +"/"+ fn +"/"+ at +"\n");
+               BufferedWriter bw = new BufferedWriter(new FileWriter((file),true));
+              bw.write(u + "/" + p + "/" + em + "/" + fn + "/" + at + "\n");
               
                 bw.flush();
                bw.close();
            } catch (IOException e) {
               System.out.println(e);
         }
+    }
+    
+    public void Read(String file){
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(file));
+             String currentline;
+             
+            while(( currentline = br.readLine() )!= null){
+                String[] line = currentline.split("/");                
+                userlist.add(new User(line[0],line[1],line[2],line[3],line[4],line[5]));
+             
+            }
+            
+            
+            br.close();
+        } catch(IOException e){
+            System.out.println(e);
+        }
+    }
+    
+    public String toString(){
+        return "ID: "+ userID + "\n" + "Username: " + Username + "\n" + "Email: " + Password + "\n" + "Fullname: " + Fullname + "\n" + "Account Type: " + AccType + "\n";
     }
 }

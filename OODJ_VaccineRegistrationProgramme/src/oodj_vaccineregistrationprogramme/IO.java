@@ -17,16 +17,20 @@ public abstract class IO {
         public static String path = "src/";
     	private String fileName;
 
-	public IO(String fileName) {
-		
-		this.fileName = fileName;
+	public IO(String fileName) {	
+	this.fileName = fileName;
+        
 	}
 
 	protected String getFileName() {
-		return fileName;
+           return fileName;
 	}
         
-        public void Write(String fileName){};
-        public void Read(String fileName){};
+        public String getDirectory(){        
+           return path+fileName;
+        }
+                
+        public void Write(String file){};
+        public void Read(String file){};
 	
 }
