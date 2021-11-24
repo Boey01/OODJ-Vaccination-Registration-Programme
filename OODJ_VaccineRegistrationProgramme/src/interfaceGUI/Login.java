@@ -114,7 +114,7 @@ public class Login extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
       String username = txtUsername.getText();
       String password = txtPassword.getText();
-      User usr = new User();
+      User usr = new User();    
       Validation v = new Validation();
       if(v.isValidUsername(username)== true && v.isValidPassword(password)==true){
           usr.Login(username,password);

@@ -87,11 +87,11 @@ public class User extends IO{
         this.Email = Email;
     }
 
-    public String getFullmame() {
+    public String getFullname() {
         return Fullname;
     }
 
-    public void setFullmame(String Fullmame) {
+    public void setFullname(String Fullmame) {
         this.Fullname = Fullname;
     }
     // End of Getter and Setter -----------------------------------------------------------------------------------------
@@ -178,7 +178,7 @@ public class User extends IO{
               System.out.println(e);
         }
     }
-    
+        
     @Override
     public void Read(String file){
         try{
