@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package oodj_vaccineregistrationprogramme;
+package SourceCode;
 
-import interfaceGUI.Register;
+import interfaceGUI.Login;
 
 /**
  *
@@ -18,8 +18,8 @@ public class OODJ_VaccineRegistrationProgramme {
      */
     public static void main(String[] args) {
         
-        Register rg = new Register();
-        rg.setVisible(true);
+        Login login = new Login();
+        login.setVisible(true);
     }
     
 }

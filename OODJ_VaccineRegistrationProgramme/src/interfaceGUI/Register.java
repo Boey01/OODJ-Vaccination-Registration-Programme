@@ -6,7 +6,8 @@
 package interfaceGUI;
 
 import javax.swing.JOptionPane;
-import oodj_vaccineregistrationprogramme.User;
+import SourceCode.User;
+import SourceCode.Validation;
 
 /**
  *
@@ -42,6 +43,7 @@ public class Register extends javax.swing.JFrame {
         btnConfirm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         lblRegister.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblRegister.setText("Register");
@@ -118,6 +120,7 @@ public class Register extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
@@ -127,10 +130,28 @@ public class Register extends javax.swing.JFrame {
      String name     = txtFullname.getText();
         
      User usr = new User(username,password,email,name);
-//     usr.Register();
-        usr.test();
+     Validation v = new Validation();
      
-     JOptionPane.showMessageDialog(null,"Added Successfully", "Success",JOptionPane.INFORMATION_MESSAGE);
+     if(v.isValidUsername(username)==true){
+         if(v.isValidPassword(password)==true){
+             if(v.isValidEmail(email)==true){
+                 if(v.isValidName(name)==true){
+                   usr.Register();  
+                   JOptionPane.showMessageDialog(null,"Register Successfully", "Account Registered",JOptionPane.INFORMATION_MESSAGE);
+                   this.setVisible(false);
+                 }else{
+                   JOptionPane.showMessageDialog(null,"Invalid Name."); 
+                 }
+             }else{
+                 JOptionPane.showMessageDialog(null,"Invalid Email.");   
+             }
+         }else{
+           JOptionPane.showMessageDialog(null,"Invalid Password.");     
+         }
+     }else{
+       JOptionPane.showMessageDialog(null,"Invalid Username.");    
+     }
+     
     }//GEN-LAST:event_btnConfirmActionPerformed
 
     /**
