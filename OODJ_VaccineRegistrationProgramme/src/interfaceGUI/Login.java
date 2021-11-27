@@ -6,7 +6,7 @@
 package interfaceGUI;
 
 import SourceCode.User;
-import SourceCode.Validation;
+import SourceCode.Ultilities;
 import javax.swing.JOptionPane;
 
 /**
@@ -115,9 +115,15 @@ public class Login extends javax.swing.JFrame {
       String username = txtUsername.getText();
       String password = txtPassword.getText();
       User usr = new User();    
-      Validation v = new Validation();
+      Ultilities v = new Ultilities();
       if(v.isValidUsername(username)== true && v.isValidPassword(password)==true){
-          usr.Login(username,password);
+        if(usr.Login(username,password) == true){
+            this.setVisible(false); //close this panel if login success
+            
+        }else{
+        JOptionPane.showMessageDialog(null,"Invalid Credentials! No such user.", "User not found",JOptionPane.INFORMATION_MESSAGE);
+        }
+        
       }else{
           JOptionPane.showMessageDialog(null,"Invalid Inputs!", "ERROR",JOptionPane.INFORMATION_MESSAGE);
       }

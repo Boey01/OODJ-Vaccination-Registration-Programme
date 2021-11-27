@@ -21,10 +21,14 @@ public abstract class IO {
 	this.fileName = fileName;
         
 	}
-
+        
 	protected String getFileName() {
            return fileName;
 	}
+        
+        protected void setFileName(String fn){
+          this.fileName = fn;
+        }
         
         public String getDirectory(){        
            return path+fileName;

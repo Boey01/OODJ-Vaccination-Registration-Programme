@@ -6,20 +6,24 @@
 package SourceCode;
 
 import interfaceGUI.Login;
-
+import interfaceGUI.PersonnelHomeScreen;
 /**
  *
  * @author devil
  */
-public class OODJ_VaccineRegistrationProgramme {
+public class Main {
 
     /**
      * @param args the command line arguments
      */
+    
+    
     public static void main(String[] args) {
         
         Login login = new Login();
         login.setVisible(true);
+//    PersonnelHomeScreen ps = new PersonnelHomeScreen();
+//    ps.setVisible(true);
     }
     
 }

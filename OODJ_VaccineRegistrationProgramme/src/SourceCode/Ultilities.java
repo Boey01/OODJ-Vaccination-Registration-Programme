@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  *
  * @author devil
  */
-public class Validation {
+public class Ultilities {
     
     public boolean isValidUsername(String content){
     String regex = "^[A-Za-z]\\w{3,14}$"; //Starts with alphabert, min 4, max 15, no special characters
@@ -70,4 +70,20 @@ public class Validation {
       String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
       return content.matches(regex);
     }
+    
+    public boolean isValidPhoneNumber(String content){
+        if(content == null){
+            return false;
+        }
+        
+        try{
+            Integer.parseInt(content);
+            return true;
+        }catch(NumberFormatException e){ 
+            System.out.println(e);
+            return false;
+        }
+        
+    }
+    
 }
