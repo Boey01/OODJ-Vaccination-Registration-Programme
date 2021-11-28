@@ -115,8 +115,7 @@ public class Personnel extends User {
         List<String> Usersrecord = new ArrayList<String>();
         List<String> Personnelrecord = new ArrayList<String>();
 
-        userlist.clear();
-        pslist.clear();
+
         super.Read(dircUsr);
         this.Read(dircPers);
 
@@ -134,8 +133,9 @@ public class Personnel extends User {
         try {
             FileWriter writer = new FileWriter(dircUsr);
             for (String str1 : Usersrecord) { //write whole string arraylist into the file
-                 writer.write(str1);
+                writer.write(str1);
             }
+            writer.flush();
             writer.close();
         } catch (IOException e) {
             System.out.println(e);
@@ -158,6 +158,7 @@ public class Personnel extends User {
             for (String str : Personnelrecord) {
                 writer.write(str);
             }
+            writer.flush();
             writer.close();
         } catch (IOException e) {
             System.out.println(e);

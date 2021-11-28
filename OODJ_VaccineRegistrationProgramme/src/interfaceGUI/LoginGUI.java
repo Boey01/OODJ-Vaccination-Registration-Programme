@@ -120,7 +120,7 @@ public class LoginGUI extends javax.swing.JFrame {
       UtilityTools v = new UtilityTools();
       if(v.isValidUsername(username)== true && v.isValidPassword(password)==true){
         if(usr.Login(username,password) == true){
-            this.setVisible(false); //close this panel if login success
+            this.dispose(); //close this panel if login success
             
         }else{
         JOptionPane.showMessageDialog(null,"Invalid Credentials! No such user.", "User not found",JOptionPane.INFORMATION_MESSAGE);

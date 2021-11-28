@@ -28,6 +28,7 @@ public class PersonnelHomeScreen extends javax.swing.JFrame {
 
     }
     
+
     public PersonnelHomeScreen(String userid,String un,String pw,String email,String name,String at){
     initComponents();
     
@@ -233,6 +234,7 @@ public class PersonnelHomeScreen extends javax.swing.JFrame {
     private void btnMyProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMyProfileActionPerformed
     ProfileGUI pf = new ProfileGUI(loggedPS);
     pf.setVisible(true);
+    this.dispose();
 
     }//GEN-LAST:event_btnMyProfileActionPerformed
 

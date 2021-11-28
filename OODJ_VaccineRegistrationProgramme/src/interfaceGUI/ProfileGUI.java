@@ -178,7 +178,9 @@ public class ProfileGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-     this.setVisible(false);
+        
+        new PersonnelHomeScreen(loggedPS.getUserID(), loggedPS.getUsername(), loggedPS.getPassword(), loggedPS.getEmail(),loggedPS.getFullname(),loggedPS.getAccType()).setVisible(true);
+        this.dispose();
      
     }//GEN-LAST:event_btnBackActionPerformed
 
@@ -202,8 +204,8 @@ public class ProfileGUI extends javax.swing.JFrame {
                         if(input==0){
                             loggedPS.UpdatePersonnelProfile(un,pw,em,name,pnumber,facilityName);
                             JOptionPane.showMessageDialog(null,"update Successfully.");
-                            this.setVisible(false);
-                            this.setVisible(true);
+                                 new PersonnelHomeScreen(loggedPS.getUserID(), un, pw, em,name,loggedPS.getAccType()).setVisible(true);
+                                 this.dispose();
                             
                         }
                          

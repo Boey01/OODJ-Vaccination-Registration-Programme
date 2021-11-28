@@ -5,6 +5,7 @@
  */
 package SourceCode;
 
+import static SourceCode.Main.USERS;
 import interfaceGUI.LoginGUI;
 import interfaceGUI.PersonnelHomeScreen;
 import java.io.BufferedReader;
@@ -231,7 +232,6 @@ public class User extends IO {
             while ((currentline = br.readLine()) != null) {
                 String[] line = currentline.split("/");
                 userlist.add(new User(line[0], line[1], line[2], line[3], line[4], line[5]));
-
             }
 
             br.close();
