@@ -20,7 +20,7 @@ import java.util.List;
 public class Personnel extends User {
 
     private String personnelID;
-    public String contactNumber;
+    public String contactNumber,Facility;
     protected List<Personnel> pslist = new ArrayList<>();
 
     public Personnel() {
@@ -34,10 +34,11 @@ public class Personnel extends User {
 
     }
 
-    public Personnel(String psid, String userid, String contactnumber) {
+    public Personnel(String psid, String userid, String contactnumber,String facility) {
         this.personnelID = psid;
         this.userID = userid;
         this.contactNumber = contactnumber;
+        this.Facility = facility;
     }
 
     //Getter and setter -----------------------
@@ -57,8 +58,16 @@ public class Personnel extends User {
         this.contactNumber = contactNumber;
     }
 
+    public String getFacility() {
+        return Facility;
+    }
+
+    public void setFacility(String Facility) {
+        this.Facility = Facility;
+    }
+
     //End of getter and setter
-    public void CheckForFirstLogin() {
+    public boolean CheckForFirstLogin() {
         String directory = super.getDirectory();
         int found = 0;
         Read(directory);
@@ -67,6 +76,8 @@ public class Personnel extends User {
             if (pslist.get(i).getUserID().equals(this.getUserID())) {// found match ID? break and set personnelID
                 this.personnelID = pslist.get(i).getPersonnelID();
                 this.contactNumber = pslist.get(i).getContactNumber();
+                this.Facility = pslist.get(i).getFacility();
+                        
                 found = 1;
                 break;
 
@@ -74,7 +85,12 @@ public class Personnel extends User {
                 found = 0;
             }
         }
-        if (found == 0) {
+        pslist.clear();
+        return found == 0;
+    }
+    
+    public void RegisterNewPersonnel(){
+        String directory = super.getDirectory();
             int latest_psid;
 
             if (pslist.isEmpty()) {
@@ -89,10 +105,9 @@ public class Personnel extends User {
             this.personnelID = Integer.toString(latest_psid);
 
             Write(directory);
-        }
     }
 
-    public void UpdatePersonnelProfile(String un, String password, String email, String name, String pnumber) {
+    public void UpdatePersonnelProfile(String un, String password, String email, String name, String pnumber, String facility) {
         String dircPers = super.getDirectory();
         super.setFileName("user.txt");
         String dircUsr = super.getDirectory();
@@ -112,7 +127,7 @@ public class Personnel extends User {
                 Usersrecord.add(userlist.get(i).AccountInfo()); //add the modified records into string arraylist
 
             } else {
-                Usersrecord.add(userlist.get(i).AccountInfo()); //add normal unchaned records
+                Usersrecord.add(userlist.get(i).AccountInfo()); //add normal unchanged records
             }
         }
 
@@ -129,7 +144,7 @@ public class Personnel extends User {
 
         for (int n = 0; n < pslist.size(); n++) {
             if (pslist.get(n).getUserID().equals(loggedID)) {
-                Personnel tempps = new Personnel(this.personnelID, loggedID, pnumber);
+                Personnel tempps = new Personnel(this.personnelID, loggedID, pnumber,facility);
                 pslist.set(n, tempps);
                 Personnelrecord.add(pslist.get(n).AccountInfo());
 
@@ -153,7 +168,7 @@ public class Personnel extends User {
 
     @Override
     public String AccountInfo() {
-        return personnelID + "/" + userID + "/" + contactNumber + "\n";
+        return personnelID + "/" + userID + "/" + contactNumber + "/" + Facility +"\n";
     }
 
     @Override
@@ -161,10 +176,11 @@ public class Personnel extends User {
         String psid = this.personnelID;
         String usid = this.userID;
         String number = this.contactNumber;
+        String facility = this.Facility;
 
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter((file), true));
-            bw.write(psid + "/" + usid + "/" + number + "\n");
+            bw.write(psid + "/" + usid + "/" + number + "/" + facility +"\n");
 
             bw.flush();
             bw.close();
@@ -183,7 +199,7 @@ public class Personnel extends User {
 
             while ((currentline = br.readLine()) != null) {
                 String[] line = currentline.split("/");
-                pslist.add(new Personnel(line[0], line[1], line[2]));
+                pslist.add(new Personnel(line[0], line[1], line[2],line[3]));
 
             }
 

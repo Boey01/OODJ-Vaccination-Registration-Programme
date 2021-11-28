@@ -5,6 +5,10 @@
  */
 package SourceCode;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,7 +16,7 @@ import java.util.regex.Pattern;
  *
  * @author devil
  */
-public class Ultilities {
+public class UtilityTools {
     
     public boolean isValidUsername(String content){
     String regex = "^[A-Za-z]\\w{3,14}$"; //Starts with alphabert, min 4, max 15, no special characters
@@ -86,4 +90,64 @@ public class Ultilities {
         
     }
     
+    public ArrayList<String> LoadLocations(){
+        ArrayList<String> locations = new ArrayList<String>();
+        
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("src/location.txt"));
+            String currentline;
+
+            while ((currentline = br.readLine()) != null) {
+                
+                locations.add(currentline);
+
+            }
+
+            br.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        return locations;
+    }
+    
+    public ArrayList<Facility> LoadFacilities(){
+        ArrayList<Facility> facilities = new ArrayList<>();
+        
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("src/facility.txt"));
+            String currentline;
+
+            while ((currentline = br.readLine()) != null) {
+                String[] line = currentline.split("/");
+                facilities.add(new Facility(line[0], line[1]));              
+
+            }
+
+            br.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        return facilities;
+    }
+    
+    public ArrayList<Vaccine> LoadVaccine(){
+        ArrayList<Vaccine> vaccine = new ArrayList<Vaccine>();
+        
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("src/vaccine.txt"));
+            String currentline;
+
+            while ((currentline = br.readLine()) != null) {
+                String[] line = currentline.split("/");
+                vaccine.add(new Vaccine(line[0], line[1], line[2], line[3], line[4]));
+
+            }
+
+            br.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        
+        return vaccine;
+    }
 }

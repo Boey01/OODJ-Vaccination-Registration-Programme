@@ -6,25 +6,25 @@
 package interfaceGUI;
 
 import SourceCode.Personnel;
-import SourceCode.Ultilities;
+import SourceCode.UtilityTools;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author devil
  */
-public class Profile extends javax.swing.JFrame {
+public class ProfileGUI extends javax.swing.JFrame {
     private Personnel loggedPS;
     /**
      * Creates new form Profile
      * @param p
      */
     
-    public Profile(){
+    public ProfileGUI(){
         initComponents();
     }
     
-    public Profile(Personnel p){
+    public ProfileGUI(Personnel p){
         initComponents();
         loggedPS = p;
         this.lblPersonnelID.setText(loggedPS.getPersonnelID());
@@ -188,17 +188,19 @@ public class Profile extends javax.swing.JFrame {
     String em = txtEmail.getText();
     String name = txtFullname.getText();
     String pnumber = txtPhoneNumber.getText();
-         Ultilities v = new Ultilities();
+    String facilityName = loggedPS.getFacility();
+    
+    
+    UtilityTools v = new UtilityTools();
      
      if(v.isValidUsername(un)==true){
          if(v.isValidPassword(pw)==true){
              if(v.isValidEmail(em)==true){
                  if(v.isValidName(name)==true){
                      if(v.isValidPhoneNumber(pnumber)==true){
-                        int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to change your profile info?","", 
-                             JOptionPane.OK_CANCEL_OPTION);
+                        int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to change your profile info?","",JOptionPane.OK_CANCEL_OPTION);
                         if(input==0){
-                            loggedPS.UpdatePersonnelProfile(un,pw,em,name,pnumber);
+                            loggedPS.UpdatePersonnelProfile(un,pw,em,name,pnumber,facilityName);
                             JOptionPane.showMessageDialog(null,"update Successfully.");
                             this.setVisible(false);
                             this.setVisible(true);
@@ -244,20 +246,21 @@ public class Profile extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Profile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProfileGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Profile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProfileGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Profile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProfileGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Profile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProfileGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Profile().setVisible(true);
+                new ProfileGUI().setVisible(true);
             }
         });
     }

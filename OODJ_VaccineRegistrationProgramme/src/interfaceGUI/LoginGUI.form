@@ -37,7 +37,10 @@
                               <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
                               <Component id="btnLogin" min="-2" pref="96" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="txtRegister" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="txtRegister" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">

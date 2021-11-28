@@ -5,7 +5,7 @@
  */
 package SourceCode;
 
-import interfaceGUI.Login;
+import interfaceGUI.LoginGUI;
 import interfaceGUI.PersonnelHomeScreen;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,6 +14,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -119,7 +121,9 @@ public class User extends IO {
                                 userlist.get(i).Email,
                                 userlist.get(i).Fullname,
                                 userlist.get(i).AccType);
-
+                                
+                        LogActivity("Login",userlist.get(i).userID,userlist.get(i).AccType);
+                        
                         phs.setVisible(true);
                         break;
 
@@ -144,6 +148,11 @@ public class User extends IO {
         }
 
     }
+    
+    public void Logout(){
+        LogActivity("Logout",this.userID,this.AccType);
+        new LoginGUI().setVisible(true);
+    }
 
     public void Register() {
         String directory = super.getDirectory();
@@ -166,9 +175,31 @@ public class User extends IO {
         Write(directory);
     }
 
+        private void LogActivity(String type, String userid, String acctype){
+        DateTimeFormatter time = DateTimeFormatter.ofPattern("HH:mm:ss");
+        DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime now = LocalDateTime.now();
+        String LogTime = "[" + date.format(now) + "] "+ "[" + time.format(now) + "] ";
+        
+        String logtype = "[" + type + "]" + ": ";
+        String user = "User ID: " + userid + " ," +"Account Type: " + acctype;
+        
+         try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(("src/log.txt"), true));
+            bw.write(LogTime + logtype + user + "\n");
+
+            bw.flush();
+            bw.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+        
+        
     protected String AccountInfo() {
         return userID + "/" + Username + "/" + Password + "/" + Email + "/" + Fullname + "/" + AccType + "\n";
     }
+    
     // ***Override methods from Abstract class IO.***
 
     @Override

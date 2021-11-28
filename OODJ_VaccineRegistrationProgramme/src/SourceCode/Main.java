@@ -5,7 +5,9 @@
  */
 package SourceCode;
 
-import interfaceGUI.Login;
+import interfaceGUI.AppointmentGUI;
+import interfaceGUI.CreateAppointmentGUI;
+import interfaceGUI.LoginGUI;
 import interfaceGUI.PersonnelHomeScreen;
 /**
  *
@@ -20,10 +22,11 @@ public class Main {
     
     public static void main(String[] args) {
         
-        Login login = new Login();
+        LoginGUI login = new LoginGUI();
         login.setVisible(true);
 //    PersonnelHomeScreen ps = new PersonnelHomeScreen();
 //    ps.setVisible(true);
+//        new CreateAppointmentGUI().setVisible(true);
     }
     
 }

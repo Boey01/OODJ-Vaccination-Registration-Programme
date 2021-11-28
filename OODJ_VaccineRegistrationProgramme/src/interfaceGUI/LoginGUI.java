@@ -6,19 +6,19 @@
 package interfaceGUI;
 
 import SourceCode.User;
-import SourceCode.Ultilities;
+import SourceCode.UtilityTools;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author devil
  */
-public class Login extends javax.swing.JFrame {
+public class LoginGUI extends javax.swing.JFrame {
 
     /**
      * Creates new form Login
      */
-    public Login() {
+    public LoginGUI() {
         initComponents();
     }
 
@@ -81,7 +81,9 @@ public class Login extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(79, 79, 79)
                                 .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtRegister)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtRegister)
+                                .addGap(15, 15, 15))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(113, 113, 113)
                         .addComponent(lblWelcome)))
@@ -115,7 +117,7 @@ public class Login extends javax.swing.JFrame {
       String username = txtUsername.getText();
       String password = txtPassword.getText();
       User usr = new User();    
-      Ultilities v = new Ultilities();
+      UtilityTools v = new UtilityTools();
       if(v.isValidUsername(username)== true && v.isValidPassword(password)==true){
         if(usr.Login(username,password) == true){
             this.setVisible(false); //close this panel if login success
@@ -132,7 +134,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void txtRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtRegisterMouseClicked
-         new Register().setVisible(true);
+         new RegisterGUI().setVisible(true);
     }//GEN-LAST:event_txtRegisterMouseClicked
 
     /**
@@ -152,20 +154,21 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new LoginGUI().setVisible(true);
             }
         });
     }
