@@ -7,8 +7,13 @@ package SourceCode;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -90,6 +95,16 @@ public class UtilityTools {
         
     }
     
+    public boolean isValidDate(Date d, String time){
+        int hour = Integer.parseInt(time);
+       d.setHours(hour); 
+      
+        LocalDateTime now = LocalDateTime.now();  
+        Date current = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
+        return (d.compareTo(current) > 0);
+     
+    }
+    
     public ArrayList<String> LoadLocations(){
         ArrayList<String> locations = new ArrayList<String>();
         
@@ -149,5 +164,55 @@ public class UtilityTools {
         }
         
         return vaccine;
+    }
+    
+    public void UpdateVaccineQuantity(String type, int n, String vaccine ){
+        List<Vaccine> vaclist = new ArrayList<>();
+        ArrayList<String> vaccrecords = new ArrayList<>()
+                ;
+   //load all vaccine info into objectlist
+             try {
+            BufferedReader br = new BufferedReader(new FileReader("src/vaccine.txt"));
+            String currentline;
+
+            while ((currentline = br.readLine()) != null) {
+                String[] line = currentline.split("/");
+                vaclist.add(new Vaccine(line[0], line[1], line[2],line[3],line[4]));
+
+            }
+
+            br.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        
+        for (int i = 0; i < vaclist.size(); i++) {
+            if (vaclist.get(i).getVaccName().equals(vaccine)) {
+                int quantity = Integer.parseInt(vaclist.get(i).getQuantity());
+                if(type=="+"){quantity = quantity + n;}
+                if(type=="-"){quantity = quantity - n;}
+                String newQuantity = String.valueOf(quantity);
+                 
+                vaclist.get(i).setQuantity(newQuantity);
+                Vaccine changedquantityvaccine = vaclist.get(i);
+                
+
+                vaccrecords.add(vaclist.get(i).toString()); //add the modified records into string arraylist
+
+            } else {
+                vaccrecords.add(vaclist.get(i).toString()); //add normal unchanged records
+            }
+        }
+
+        try {
+            FileWriter writer = new FileWriter("src/vaccine.txt");
+            for (String str : vaccrecords) {  //write whole string arraylist into the file
+                writer.write(str);
+            }
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
     }
 }

@@ -169,7 +169,7 @@ public class RegisterGUI extends javax.swing.JFrame {
                  if(v.isValidName(name)==true){
                    usr.Register();  
                    JOptionPane.showMessageDialog(null,"Register Successfully", "Account Registered",JOptionPane.INFORMATION_MESSAGE);
-                   this.setVisible(false);
+                   this.dispose();
                  }else{
                    JOptionPane.showMessageDialog(null,"Invalid Name."); 
                  }

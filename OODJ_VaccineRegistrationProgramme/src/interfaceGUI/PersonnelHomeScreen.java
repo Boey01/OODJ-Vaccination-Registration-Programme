@@ -239,7 +239,11 @@ public class PersonnelHomeScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMyProfileActionPerformed
 
     private void btnAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAppointmentActionPerformed
-        // TODO add your handling code here:
+     
+    new AppointmentGUI(loggedPS).setVisible(true);
+    this.dispose();
+        
+        
     }//GEN-LAST:event_btnAppointmentActionPerformed
 
     private void btnVaccineStorageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVaccineStorageActionPerformed
@@ -250,7 +254,7 @@ public class PersonnelHomeScreen extends javax.swing.JFrame {
     int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to log out?","Confirm Logout",JOptionPane.OK_CANCEL_OPTION);
     if (input==0){
      loggedPS.Logout();
-     this.setVisible(false);
+     this.dispose();
     }
     }//GEN-LAST:event_btnLogOutActionPerformed
 

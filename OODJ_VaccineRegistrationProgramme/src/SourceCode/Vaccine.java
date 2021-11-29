@@ -62,4 +62,9 @@ public class Vaccine {
         this.quantity = quantity;
     }
     //End of getter setter
+    
+    @Override
+    public String toString(){
+        return this.vaccineID +"/"+this.vaccName+"/"+this.DoseNum+"/"+this.weeksPerDose+"/"+this.quantity+"\n";
+    }
 }

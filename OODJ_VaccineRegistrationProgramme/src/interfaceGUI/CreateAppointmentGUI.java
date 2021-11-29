@@ -5,42 +5,54 @@
  */
 package interfaceGUI;
 
+import SourceCode.Appointment;
 import SourceCode.Facility;
+import SourceCode.Personnel;
 import SourceCode.UtilityTools;
 import SourceCode.Vaccine;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author devil
  */
 public class CreateAppointmentGUI extends javax.swing.JFrame {
-ArrayList<String> location = new ArrayList<String>();
-ArrayList<Facility> facility = new ArrayList<Facility>();
-ArrayList<Vaccine> vaccine = new ArrayList<Vaccine>();
+private ArrayList<Vaccine> vaccine = new ArrayList<Vaccine>();
+private ArrayList<Facility> facilities = new ArrayList<Facility>();
+public Personnel loggedPS;
+public AppointmentGUI test;
+public String location;
     /**
      * Creates new form CreateAppointmentGUI
      */
-    public CreateAppointmentGUI() {
+     public CreateAppointmentGUI(){
+         initComponents();
+     }
+
+    public CreateAppointmentGUI(Personnel p) {
+        test = new AppointmentGUI(p);
+        test.setVisible(true);
+        
+        this.loggedPS = p;
         initComponents();
         UtilityTools u = new UtilityTools();
-        location = u.LoadLocations();
-        facility = u.LoadFacilities();
         vaccine = u.LoadVaccine();
+        facilities = u.LoadFacilities();
         
-        for(int i=0;i <25;i++){ //Load Time 0 - 24
+        for(int i=0;i < facilities.size();i++){
+            if(loggedPS.getFacility().equals(facilities.get(i).getFacName())){
+                this.location = facilities.get(i).getFacLocation();
+            }              
+        }
+        
+        for(int i=0;i <24;i++){ //Load Time 0 - 23
             String time= Integer.toString(i);
             comboTime.addItem(time);
         }
-        
-        for(int i = 0; i<location.size();i++){ //Load locations
-            comboLocation.addItem(location.get(i));
-        }
-        
-//        for(int i = 0; i<facility.size();i++){ //Load facilities
-//            comboFacilityName.addItem(facility.get(i));
-//        }
-        
+                     
         for(int i = 0; i<vaccine.size();i++){ //Load available vaccines
             int quantity = Integer.parseInt(vaccine.get(i).getQuantity());
             if(quantity>0){
@@ -59,7 +71,6 @@ ArrayList<Vaccine> vaccine = new ArrayList<Vaccine>();
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        comboFacilityName = new javax.swing.JComboBox<>();
         lblVaccine = new javax.swing.JLabel();
         comboVaccine = new javax.swing.JComboBox<>();
         lblUserID = new javax.swing.JLabel();
@@ -67,20 +78,15 @@ ArrayList<Vaccine> vaccine = new ArrayList<Vaccine>();
         comboTime = new javax.swing.JComboBox<>();
         lblDate = new javax.swing.JLabel();
         jdateDate = new com.toedter.calendar.JDateChooser();
-        lblLocation = new javax.swing.JLabel();
-        comboLocation = new javax.swing.JComboBox<>();
-        lblFacilityName = new javax.swing.JLabel();
-        comboStatus1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        comboUser = new javax.swing.JComboBox<>();
+        btnDone = new javax.swing.JButton();
+        btnback = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("New Appointment");
-
-        comboFacilityName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pick a facility" }));
 
         lblVaccine.setText("Vaccine");
 
@@ -94,47 +100,50 @@ ArrayList<Vaccine> vaccine = new ArrayList<Vaccine>();
 
         lblDate.setText("Date");
 
-        lblLocation.setText("Location");
+        comboUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pick a user", "1", "2", "3" }));
 
-        comboLocation.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pick a location" }));
+        btnDone.setText("Done");
+        btnDone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDoneActionPerformed(evt);
+            }
+        });
 
-        lblFacilityName.setText("FacilityName");
-
-        comboStatus1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pick a user" }));
-
-        jButton1.setText("Done");
-
-        jButton2.setText("Back");
+        btnback.setText("Back");
+        btnback.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnbackActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
-                    .addComponent(jLabel1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblTime)
-                            .addComponent(lblLocation)
-                            .addComponent(lblUserID)
-                            .addComponent(comboLocation, 0, 140, Short.MAX_VALUE)
-                            .addComponent(comboTime, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comboStatus1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblDate)
-                            .addComponent(lblFacilityName)
-                            .addComponent(lblVaccine)
-                            .addComponent(comboFacilityName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jdateDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comboVaccine, 0, 140, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(232, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblTime)
+                                    .addComponent(lblUserID)
+                                    .addComponent(comboTime, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(comboUser, 0, 140, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblDate)
+                                    .addComponent(lblVaccine)
+                                    .addComponent(jdateDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(comboVaccine, 0, 140, Short.MAX_VALUE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnback)
+                            .addComponent(btnDone, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,33 +159,66 @@ ArrayList<Vaccine> vaccine = new ArrayList<Vaccine>();
                     .addComponent(jdateDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(comboTime))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblLocation)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblFacilityName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboFacilityName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUserID)
                     .addComponent(lblVaccine))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(comboVaccine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboStatus1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboVaccine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addComponent(btnDone, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addComponent(btnback)
+                .addGap(30, 30, 30))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbackActionPerformed
+        this.dispose();
+        test.dispose();
+        test.setVisible(true);// TODO add your handling code here:
+    }//GEN-LAST:event_btnbackActionPerformed
+
+    private void btnDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoneActionPerformed
+        String time = comboTime.getSelectedItem().toString();
+        String date;
+        String loc = this.location;
+        String status = "First Dose";
+        String facility = loggedPS.getFacility();
+        String user = comboUser.getSelectedItem().toString();
+        String vacc = comboVaccine.getSelectedItem().toString();
+         UtilityTools u = new UtilityTools();
+        
+       if(comboTime.getSelectedIndex()==0 ||
+               comboUser.getSelectedIndex()==0 ||
+               comboVaccine.getSelectedIndex()==0 ||
+               jdateDate.getDate()==null){
+        JOptionPane.showMessageDialog(null,"There is information not selected!");
+        }else if(u.isValidDate(jdateDate.getDate(),time)== false){
+           JOptionPane.showMessageDialog(null,"Please select a valid date"); 
+       }else{
+        int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to create the appointment?","",JOptionPane.OK_CANCEL_OPTION);         
+        if(input ==0){
+        
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");       
+        date = df.format(jdateDate.getDate());    
+        Appointment appt = new Appointment("0",time,date,loc,status,facility,user,vacc);
+        appt.RegisterNewAppointment();
+        u.UpdateVaccineQuantity("-", 1, vacc);
+        JOptionPane.showMessageDialog(null,"Appointment has been created successfully.");
+
+        this.dispose();
+        test.dispose();
+        test.setVisible(true);
+        }
+        }
+       
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDoneActionPerformed
 
     /**
      * @param args the command line arguments
@@ -214,18 +256,14 @@ ArrayList<Vaccine> vaccine = new ArrayList<Vaccine>();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> comboFacilityName;
-    private javax.swing.JComboBox<String> comboLocation;
-    private javax.swing.JComboBox<String> comboStatus1;
+    private javax.swing.JButton btnDone;
+    private javax.swing.JButton btnback;
     private javax.swing.JComboBox<String> comboTime;
+    private javax.swing.JComboBox<String> comboUser;
     private javax.swing.JComboBox<String> comboVaccine;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private com.toedter.calendar.JDateChooser jdateDate;
     private javax.swing.JLabel lblDate;
-    private javax.swing.JLabel lblFacilityName;
-    private javax.swing.JLabel lblLocation;
     private javax.swing.JLabel lblTime;
     private javax.swing.JLabel lblUserID;
     private javax.swing.JLabel lblVaccine;

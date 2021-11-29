@@ -5,8 +5,10 @@
  */
 package interfaceGUI;
 
+import SourceCode.Personnel;
 import SourceCode.UtilityTools;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -14,12 +16,18 @@ import java.util.ArrayList;
  * @author devil
  */
 public class AppointmentGUI extends javax.swing.JFrame {
-    ArrayList<String> location = new ArrayList<String>();
+    public ArrayList<String> location = new ArrayList<String>();
+    private Personnel loggedPS;
     /**
      * Creates new form AppointmentGUI
      */
     public AppointmentGUI() {
         initComponents();
+    }
+    
+    public AppointmentGUI(Personnel p) {
+    this.loggedPS = p;
+    initComponents();
     }
 
     /**
@@ -109,6 +117,11 @@ public class AppointmentGUI extends javax.swing.JFrame {
         btnUpdateStatus.setText("Update Status");
 
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         lblAppointmentID.setText("Appointment ID: ");
 
@@ -124,6 +137,11 @@ public class AppointmentGUI extends javax.swing.JFrame {
         jdateDate.setEnabled(false);
 
         btnCreateAppointment.setText("Create Appointment");
+        btnCreateAppointment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateAppointmentActionPerformed(evt);
+            }
+        });
 
         lblLocation.setText("Location");
 
@@ -277,6 +295,7 @@ public class AppointmentGUI extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
@@ -304,6 +323,21 @@ public class AppointmentGUI extends javax.swing.JFrame {
             btnDelete.setEnabled(false);
         }
     }//GEN-LAST:event_checkboxEditModeActionPerformed
+
+    private void btnCreateAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateAppointmentActionPerformed
+    int input = JOptionPane.showConfirmDialog(null,"Do note that by normal occasion, you should NOT register an appointment for others.", "Alert", JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+    
+    if(input ==0){
+    new CreateAppointmentGUI(loggedPS).setVisible(true);
+    this.dispose();
+    }// TODO add your handling code here:
+    }//GEN-LAST:event_btnCreateAppointmentActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        this.dispose();
+        new PersonnelHomeScreen(loggedPS.getUserID(), loggedPS.getUsername(), loggedPS.getPassword(), loggedPS.getEmail(),loggedPS.getFullname(),loggedPS.getAccType()).setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
