@@ -5,29 +5,76 @@
  */
 package interfaceGUI;
 
+import SourceCode.Appointment;
 import SourceCode.Personnel;
 import SourceCode.UtilityTools;
+import SourceCode.Vaccine;
+import java.awt.Color;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
  * @author devil
  */
 public class AppointmentGUI extends javax.swing.JFrame {
-    public ArrayList<String> location = new ArrayList<String>();
+
     private Personnel loggedPS;
+    private List<Appointment> appointments = new ArrayList<>();
+    private ArrayList<Vaccine> vaccine = new ArrayList<Vaccine>();
+    private DefaultTableModel AppointmentTable;
+    private String updatestatustime;
+
     /**
      * Creates new form AppointmentGUI
      */
     public AppointmentGUI() {
         initComponents();
     }
-    
+
     public AppointmentGUI(Personnel p) {
-    this.loggedPS = p;
-    initComponents();
+        this.loggedPS = p;
+        UtilityTools u = new UtilityTools();
+        appointments = u.LoadAppointment();
+        vaccine = u.LoadVaccine();
+        initComponents();
+
+        AppointmentTable = (DefaultTableModel) tblAppointment.getModel();
+        for (int i = 0; i < appointments.size(); i++) {
+            if (appointments.get(i).getFacilityName().equals(loggedPS.getFacility())) {
+                AppointmentTable.addRow(new Object[]{
+                    appointments.get(i).getApptID(),
+                    appointments.get(i).getTime(),
+                    appointments.get(i).getDate(),
+                    appointments.get(i).getLocation(),
+                    appointments.get(i).getFacilityName(),
+                    appointments.get(i).getStatus(),
+                    appointments.get(i).getRegisteredUser(),
+                    appointments.get(i).getUsedVacc()});
+            }          
+        }
+
+        for (int i = 0; i < 24; i++) { //Load Time 0 - 23
+            String time = Integer.toString(i);
+            comboTime.addItem(time);
+            comboTime1.addItem(time);
+        }
+
+        for (int i = 0; i < vaccine.size(); i++) { //Load vaccines
+            comboVaccine.addItem(vaccine.get(i).getVaccName());
+        }
+
+        for(int i = 0; i < appointments.size(); i++) {
+            if(appointments.get(i).getStatus().equals("Pending"))this.btnPendingAppointment.setBackground(Color.red);
+        }
     }
 
     /**
@@ -40,6 +87,10 @@ public class AppointmentGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jLocaleChooser1 = new com.toedter.components.JLocaleChooser();
+        jDialog1 = new javax.swing.JDialog();
+        jLabel2 = new javax.swing.JLabel();
+        comboTime1 = new javax.swing.JComboBox<>();
+        btnOKtime = new javax.swing.JButton();
         lblAppointmentTitle = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAppointment = new javax.swing.JTable();
@@ -55,20 +106,61 @@ public class AppointmentGUI extends javax.swing.JFrame {
         lblDate = new javax.swing.JLabel();
         jdateDate = new com.toedter.calendar.JDateChooser();
         btnCreateAppointment = new javax.swing.JButton();
-        lblLocation = new javax.swing.JLabel();
-        comboLocation = new javax.swing.JComboBox<>();
-        lblFacilityName = new javax.swing.JLabel();
-        comboFacilityName = new javax.swing.JComboBox<>();
         lblStatus = new javax.swing.JLabel();
-        comboStatus = new javax.swing.JComboBox<>();
         lblVaccine = new javax.swing.JLabel();
         comboVaccine = new javax.swing.JComboBox<>();
         btnFinishEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         lblUserID = new javax.swing.JLabel();
         lbltheUserID = new javax.swing.JLabel();
+        lbltheStatus = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+
+        jDialog1.setResizable(false);
+        jDialog1.setSize(new java.awt.Dimension(320, 170));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setText("Pick a time for next appointment");
+
+        comboTime1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No time is selected." }));
+
+        btnOKtime.setText("OK");
+        btnOKtime.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKtimeActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(comboTime1, 0, 299, Short.MAX_VALUE)
+                    .addGroup(jDialog1Layout.createSequentialGroup()
+                        .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(btnOKtime))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(comboTime1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnOKtime)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setAutoRequestFocus(false);
+        setResizable(false);
 
         lblAppointmentTitle.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblAppointmentTitle.setText("Appointment Panel");
@@ -78,7 +170,7 @@ public class AppointmentGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ApptID", "Time", "Date", "Location", "FacilityName", "Status", "Vaccine", "UserID"
+                "ApptID", "Time", "Date", "Location", "FacilityName", "Status", "UserID", "Vaccine"
             }
         ) {
             Class[] types = new Class [] {
@@ -96,9 +188,22 @@ public class AppointmentGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblAppointment.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblAppointmentMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblAppointment);
 
         txtSearch.setText("Search");
+        txtSearch.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtSearchFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtSearchFocusLost(evt);
+            }
+        });
         txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSearchActionPerformed(evt);
@@ -113,8 +218,18 @@ public class AppointmentGUI extends javax.swing.JFrame {
         });
 
         btnPendingAppointment.setText("Pending Appointment");
+        btnPendingAppointment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPendingAppointmentActionPerformed(evt);
+            }
+        });
 
         btnUpdateStatus.setText("Update Status");
+        btnUpdateStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateStatusActionPerformed(evt);
+            }
+        });
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -129,7 +244,7 @@ public class AppointmentGUI extends javax.swing.JFrame {
 
         lblTime.setText("Time");
 
-        comboTime.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboTime.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No time is selected." }));
         comboTime.setEnabled(false);
 
         lblDate.setText("Date");
@@ -143,35 +258,36 @@ public class AppointmentGUI extends javax.swing.JFrame {
             }
         });
 
-        lblLocation.setText("Location");
-
-        comboLocation.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        comboLocation.setEnabled(false);
-
-        lblFacilityName.setText("FacilityName");
-
-        comboFacilityName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        comboFacilityName.setEnabled(false);
-
-        lblStatus.setText("Status");
-
-        comboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        comboStatus.setEnabled(false);
+        lblStatus.setText("Status:");
 
         lblVaccine.setText("Vaccine");
 
-        comboVaccine.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboVaccine.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No Vaccine selected." }));
         comboVaccine.setEnabled(false);
 
         btnFinishEdit.setText("Finish Edit");
         btnFinishEdit.setEnabled(false);
+        btnFinishEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFinishEditActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("Delete");
         btnDelete.setEnabled(false);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         lblUserID.setText("User ID: ");
 
         lbltheUserID.setText("userID");
+
+        lbltheStatus.setText("Status");
+
+        jLabel1.setText("Button above will update the selected appointment status.");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -180,61 +296,55 @@ public class AppointmentGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 771, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnPendingAppointment, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(102, 102, 102)
-                                .addComponent(btnUpdateStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(103, 103, 103)
-                                .addComponent(btnCreateAppointment, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(btnCreateAppointment, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnUpdateStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblTime)
+                                    .addComponent(lblVaccine)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblAppointmentID)
+                                            .addComponent(lblUserID)
+                                            .addComponent(lblStatus))
+                                        .addGap(10, 10, 10)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lbltheStatus)
+                                            .addComponent(lbltheUserID)
+                                            .addComponent(lbltheAppointmentID)))
+                                    .addComponent(comboVaccine, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(172, 172, 172)
+                                        .addComponent(btnDelete))
+                                    .addComponent(lblDate)
+                                    .addComponent(comboTime, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jdateDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(9, 9, 9)
+                                .addComponent(btnFinishEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(41, 41, 41))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(checkboxEditMode))
-                            .addComponent(lblAppointmentTitle)
-                            .addComponent(btnBack))
-                        .addContainerGap(335, Short.MAX_VALUE))
+                            .addComponent(lblAppointmentTitle))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lblAppointmentID, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblTime, javax.swing.GroupLayout.Alignment.LEADING))
-                                        .addGap(10, 10, 10)
-                                        .addComponent(lbltheAppointmentID))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(lblLocation)
-                                            .addComponent(comboTime, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(comboLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblDate)
-                                            .addComponent(jdateDate, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lblFacilityName)
-                                            .addComponent(comboFacilityName, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblStatus)
-                                            .addComponent(comboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblVaccine)
-                                            .addComponent(comboVaccine, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnDelete, javax.swing.GroupLayout.Alignment.TRAILING)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblUserID)
-                                        .addGap(10, 10, 10)
-                                        .addComponent(lbltheUserID))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addComponent(btnFinishEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(39, 39, 39))))
+                        .addComponent(btnBack)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(237, 237, 237))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,47 +361,41 @@ public class AppointmentGUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblAppointmentID)
                             .addComponent(lbltheAppointmentID))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblTime)
-                            .addComponent(lblDate))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jdateDate, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblLocation)
-                            .addComponent(lblFacilityName))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(comboLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboFacilityName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblStatus)
-                            .addComponent(lblVaccine))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(comboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboVaccine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblUserID)
                             .addComponent(lbltheUserID))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblStatus)
+                            .addComponent(lbltheStatus))
+                        .addGap(18, 18, 18)
+                        .addComponent(lblTime)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblDate)
+                        .addGap(5, 5, 5)
+                        .addComponent(jdateDate, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(11, 11, 11)
+                        .addComponent(lblVaccine)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboVaccine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnFinishEdit)
                             .addComponent(btnDelete)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnUpdateStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPendingAppointment, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCreateAppointment, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPendingAppointment, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(btnBack)
-                .addContainerGap())
+                    .addComponent(btnUpdateStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBack)
+                    .addComponent(jLabel1))
+                .addGap(14, 14, 14))
         );
 
         pack();
@@ -299,24 +403,19 @@ public class AppointmentGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
-        // TODO add your handling code here:
+        TableRowSorter<DefaultTableModel> sort = new TableRowSorter<DefaultTableModel>(AppointmentTable);
+        tblAppointment.setRowSorter(sort);
+        sort.setRowFilter(RowFilter.regexFilter(txtSearch.getText().trim()));          // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchActionPerformed
 
     private void checkboxEditModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkboxEditModeActionPerformed
-        if(checkboxEditMode.isSelected()==true){
+        if (checkboxEditMode.isSelected() == true) {
             comboTime.setEnabled(true);
-            comboLocation.setEnabled(true);
-            comboFacilityName.setEnabled(true);
-            comboStatus.setEnabled(true);
-            comboVaccine.setEnabled(true);
             jdateDate.setEnabled(true);
             btnFinishEdit.setEnabled(true);
             btnDelete.setEnabled(true);
-        }else if(checkboxEditMode.isSelected()==false){
+        } else if (checkboxEditMode.isSelected() == false) {
             comboTime.setEnabled(false);
-            comboLocation.setEnabled(false);
-            comboFacilityName.setEnabled(false);
-            comboStatus.setEnabled(false);
             comboVaccine.setEnabled(false);
             jdateDate.setEnabled(false);
             btnFinishEdit.setEnabled(false);
@@ -325,19 +424,193 @@ public class AppointmentGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_checkboxEditModeActionPerformed
 
     private void btnCreateAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateAppointmentActionPerformed
-    int input = JOptionPane.showConfirmDialog(null,"Do note that by normal occasion, you should NOT register an appointment for others.", "Alert", JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
-    
-    if(input ==0){
-    new CreateAppointmentGUI(loggedPS).setVisible(true);
-    this.dispose();
-    }// TODO add your handling code here:
+        String msg = "Do note that by normal occasion, you should NOT register an appointment for others.";
+        int input = JOptionPane.showConfirmDialog(null, msg, "Alert", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+
+        if (input == 0) {
+            new CreateAppointmentGUI(loggedPS).setVisible(true);
+            this.dispose();
+        }// TODO add your handling code here:
     }//GEN-LAST:event_btnCreateAppointmentActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         this.dispose();
-        new PersonnelHomeScreen(loggedPS.getUserID(), loggedPS.getUsername(), loggedPS.getPassword(), loggedPS.getEmail(),loggedPS.getFullname(),loggedPS.getAccType()).setVisible(true);
+        new PersonnelHomeScreen(loggedPS.getUserID(), loggedPS.getUsername(), loggedPS.getPassword(), loggedPS.getEmail(), loggedPS.getFullname(), loggedPS.getAccType()).setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void tblAppointmentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAppointmentMouseClicked
+        try {
+            int row = tblAppointment.getSelectedRow();
+            this.lbltheAppointmentID.setText(AppointmentTable.getValueAt(row, 0).toString());
+            this.lbltheUserID.setText(AppointmentTable.getValueAt(row, 6).toString());
+            this.lbltheStatus.setText(AppointmentTable.getValueAt(row, 5).toString());
+
+            int size = comboVaccine.getItemCount();
+
+            for (int i = 0; i < size; i++) {//set vaccine
+                if (this.comboVaccine.getItemAt(i).equals(AppointmentTable.getValueAt(row, 7).toString())) {
+                    this.comboVaccine.setSelectedIndex(i);
+
+                }
+            }
+
+            for (int i = 0; i < 24; i++) {//set time
+                if (this.comboTime.getItemAt(i).equals(AppointmentTable.getValueAt(row, 1).toString())) {
+                    this.comboTime.setSelectedIndex(i);
+                }
+            }
+
+            Date apptDate = new SimpleDateFormat("yyyy-MM-dd").parse(AppointmentTable.getValueAt(row, 2).toString());
+            this.jdateDate.setDate(apptDate);
+
+            if (this.lbltheStatus.getText().equals("Pending") || this.lbltheStatus.getText().equals("First Dose")) {
+                if (checkboxEditMode.isSelected()) {
+                    this.comboVaccine.setEnabled(true);
+                }
+            } else {
+                comboVaccine.setEnabled(false);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_tblAppointmentMouseClicked
+
+    private void btnFinishEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinishEditActionPerformed
+        String newtime = this.comboTime.getSelectedItem().toString();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String newdate = df.format(this.jdateDate.getDate());
+        String newvacc = this.comboVaccine.getSelectedItem().toString();
+        ArrayList<String> appointmentrecords = new ArrayList<>();
+        UtilityTools u = new UtilityTools();
+        String pending = "Pending";
+        String firstdose = "First Dose";
+
+        if (this.lbltheStatus.getText().equals(pending) || this.lbltheStatus.getText().equals(firstdose)) {
+            if (comboTime.getSelectedIndex() == 0
+                    || comboVaccine.getSelectedIndex() == 0
+                    || jdateDate.getDate() == null) {
+                JOptionPane.showMessageDialog(null, "There is information not selected!");
+                //some informatin is not selected
+            } else if (u.isValidDate(jdateDate.getDate(), newtime) == false) {
+                JOptionPane.showMessageDialog(null, "Please select a valid date");
+                //if all information is selected, check is the schedule selected is past
+            } else {
+                int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to update this appointment?", "", JOptionPane.OK_CANCEL_OPTION);
+                if (input == 0) {
+
+                    for (int i = 0; i < appointments.size(); i++) {
+                        if (appointments.get(i).getApptID().equals(this.lbltheAppointmentID.getText())) {
+                            appointments.get(i).setTime(newtime);
+                            appointments.get(i).setDate(newdate);
+                            //change the vaccine stocks
+                            u.UpdateVaccineQuantity("+", appointments.get(i).getUsedVacc());//increase docse stocks
+
+                            appointments.get(i).setUsedVacc(newvacc);
+                            u.UpdateVaccineQuantity("-", appointments.get(i).getUsedVacc()); //reduce dose stocks
+
+                            appointmentrecords.add(appointments.get(i).toString());
+                        } else {
+                            appointmentrecords.add(appointments.get(i).toString());
+                        }
+                    }
+
+                    if (appointmentrecords.isEmpty() == false) { //if the string arraylist is not empty
+                        Appointment apt = new Appointment();
+                        apt.UpdateAppointment(appointmentrecords);
+                        
+                        this.dispose();
+                        new AppointmentGUI(loggedPS).setVisible(true);
+                    }
+
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Only appointments pending for confirmation or first dose is editable!"); //cannot edit appointments alrdy had first dose
+        }
+    }//GEN-LAST:event_btnFinishEditActionPerformed
+
+    private void txtSearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchFocusGained
+        if (txtSearch.getText().equals("Search")) {
+            txtSearch.setText("");
+        }
+    }//GEN-LAST:event_txtSearchFocusGained
+
+    private void txtSearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchFocusLost
+        if (txtSearch.getText().isEmpty()) {
+            txtSearch.setText("Search");
+        }
+    }//GEN-LAST:event_txtSearchFocusLost
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        ArrayList<String> appointmentrecords = new ArrayList<>();
+
+        if (this.lbltheStatus.getText().equals("Pending") || this.lbltheStatus.getText().equals("First Dose")) {
+            
+            int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to DELETE this appointment?", "", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (input == 0) {
+                for (int i = 0; i < appointments.size(); i++) {
+                    if (appointments.get(i).getApptID().equals(this.lbltheAppointmentID.getText()) == false) {
+                        appointmentrecords.add(appointments.get(i).toString());
+                    }
+                }
+            }
+
+            if (appointmentrecords.isEmpty() == false) { //if the string arraylist is not empty
+                Appointment apt = new Appointment();
+                apt.UpdateAppointment(appointmentrecords);
+                
+                this.dispose();
+                new AppointmentGUI(loggedPS).setVisible(true);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Only appointments pending for confirmation or first dose is editable!"); //cannot edit appointments alrdy had first dose
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnPendingAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPendingAppointmentActionPerformed
+      this.dispose();
+      new PendingAppointmentGUI(appointments,loggedPS).setVisible(true);
+    }//GEN-LAST:event_btnPendingAppointmentActionPerformed
+
+    private void btnUpdateStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateStatusActionPerformed
+       if(tblAppointment.getSelectionModel().isSelectionEmpty()){
+           //Is there any selected appointment?
+       }else{
+           int row = tblAppointment.getSelectedRow();
+           if(AppointmentTable.getValueAt(row, 5).toString().equals("Pending") ||AppointmentTable.getValueAt(row, 5).toString().equals("Done") ){
+              JOptionPane.showMessageDialog(null, "This appointment has nothing to update. "); 
+           //Is the appointment in pending or fully vaccinated stat?
+       }else{
+        jDialog1.setLocationRelativeTo(null);
+        jDialog1.setAlwaysOnTop(this.isAlwaysOnTopSupported());
+        jDialog1.setVisible(true);
+               }
+       }
+    }//GEN-LAST:event_btnUpdateStatusActionPerformed
+
+    private void btnOKtimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKtimeActionPerformed
+        int row = tblAppointment.getSelectedRow();
+        String apptid = AppointmentTable.getValueAt(row, 0).toString();
+        String status = AppointmentTable.getValueAt(row, 5).toString();
+        String nextStage = "";
+        
+        
+        updatestatustime = this.comboTime1.getSelectedItem().toString();
+        jDialog1.dispose();  
+        if(status.equals("First Dose"))nextStage="Second Dose";
+        if(status.equals("Second Dose"))nextStage="Done";
+        String msg = "Appointment ID: "+apptid+"\nFrom: "+status+" >>>to>>> "+nextStage;
+        
+        int input = JOptionPane.showConfirmDialog(null,msg, "Confirm Update status", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);  
+        if (input == 0) {
+        new Appointment().UpdateAppointmentStatus(apptid, nextStage, updatestatustime);
+        this.dispose();
+        new AppointmentGUI(loggedPS).setVisible(true);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnOKtimeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -379,27 +652,28 @@ public class AppointmentGUI extends javax.swing.JFrame {
     private javax.swing.JButton btnCreateAppointment;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnFinishEdit;
+    private javax.swing.JButton btnOKtime;
     private javax.swing.JButton btnPendingAppointment;
     private javax.swing.JButton btnUpdateStatus;
     private javax.swing.JCheckBox checkboxEditMode;
-    private javax.swing.JComboBox<String> comboFacilityName;
-    private javax.swing.JComboBox<String> comboLocation;
-    private javax.swing.JComboBox<String> comboStatus;
     private javax.swing.JComboBox<String> comboTime;
+    private javax.swing.JComboBox<String> comboTime1;
     private javax.swing.JComboBox<String> comboVaccine;
+    private javax.swing.JDialog jDialog1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private com.toedter.components.JLocaleChooser jLocaleChooser1;
     private javax.swing.JScrollPane jScrollPane1;
     private com.toedter.calendar.JDateChooser jdateDate;
     private javax.swing.JLabel lblAppointmentID;
     private javax.swing.JLabel lblAppointmentTitle;
     private javax.swing.JLabel lblDate;
-    private javax.swing.JLabel lblFacilityName;
-    private javax.swing.JLabel lblLocation;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblTime;
     private javax.swing.JLabel lblUserID;
     private javax.swing.JLabel lblVaccine;
     private javax.swing.JLabel lbltheAppointmentID;
+    private javax.swing.JLabel lbltheStatus;
     private javax.swing.JLabel lbltheUserID;
     private javax.swing.JTable tblAppointment;
     private javax.swing.JTextField txtSearch;

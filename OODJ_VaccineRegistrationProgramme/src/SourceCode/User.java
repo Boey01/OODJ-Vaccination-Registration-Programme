@@ -99,6 +99,11 @@ public class User extends IO {
     public void setFullname(String Fullmame) {
         this.Fullname = Fullname;
     }
+
+    public List<User> getUserlist() {
+        return userlist;
+    }
+    
     // End of Getter and Setter -----------------------------------------------------------------------------------------
 
     //***Methods from User class***

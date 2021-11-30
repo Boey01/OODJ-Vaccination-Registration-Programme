@@ -180,6 +180,7 @@ public String location;
     private void btnbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbackActionPerformed
         this.dispose();
         test.dispose();
+        test = new AppointmentGUI(loggedPS);
         test.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_btnbackActionPerformed
 
@@ -206,13 +207,14 @@ public String location;
         
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");       
         date = df.format(jdateDate.getDate());    
-        Appointment appt = new Appointment("0",time,date,loc,status,facility,user,vacc);
+        Appointment appt = new Appointment("0",time,date,loc,facility,status,user,vacc);
         appt.RegisterNewAppointment();
-        u.UpdateVaccineQuantity("-", 1, vacc);
+        u.UpdateVaccineQuantity("-", vacc);
         JOptionPane.showMessageDialog(null,"Appointment has been created successfully.");
 
         this.dispose();
         test.dispose();
+        test = new AppointmentGUI(loggedPS);
         test.setVisible(true);
         }
         }

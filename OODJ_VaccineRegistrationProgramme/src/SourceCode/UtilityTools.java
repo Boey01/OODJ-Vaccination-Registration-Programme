@@ -166,10 +166,31 @@ public class UtilityTools {
         return vaccine;
     }
     
-    public void UpdateVaccineQuantity(String type, int n, String vaccine ){
+    public List<Appointment> LoadAppointment(){
+        List<Appointment> applist = new ArrayList<>();
+        
+                try {
+            BufferedReader br = new BufferedReader(new FileReader("src/appointment.txt"));
+            String currentline;
+
+            while ((currentline = br.readLine()) != null) {
+                String[] line = currentline.split("/");
+                applist.add(new Appointment(line[0], line[1], line[2], line[3], line[4], line[5],line[6],line[7]));
+            }
+
+            br.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+                
+              return applist;  
+    }
+    
+    public void UpdateVaccineQuantity(String type, String vaccine ){
         List<Vaccine> vaclist = new ArrayList<>();
-        ArrayList<String> vaccrecords = new ArrayList<>()
-                ;
+        ArrayList<String> vaccrecords = new ArrayList<>();
+        int dosecount=0;
+               
    //load all vaccine info into objectlist
              try {
             BufferedReader br = new BufferedReader(new FileReader("src/vaccine.txt"));
@@ -186,11 +207,18 @@ public class UtilityTools {
             System.out.println(e);
         }
         
+             //Get picked vaccine dose number needed.
+                 for(int i=0;i<vaclist.size();i++){
+                  if(vaclist.get(i).getVaccName().equals(vaccine)){
+                      dosecount = Integer.parseInt(vaclist.get(i).getDoseNum());
+                  }
+              }    
+                 
         for (int i = 0; i < vaclist.size(); i++) {
             if (vaclist.get(i).getVaccName().equals(vaccine)) {
                 int quantity = Integer.parseInt(vaclist.get(i).getQuantity());
-                if(type=="+"){quantity = quantity + n;}
-                if(type=="-"){quantity = quantity - n;}
+                if(type=="+"){quantity = quantity + dosecount;}
+                if(type=="-"){quantity = quantity - dosecount;}
                 String newQuantity = String.valueOf(quantity);
                  
                 vaclist.get(i).setQuantity(newQuantity);
@@ -215,4 +243,18 @@ public class UtilityTools {
             System.out.println(e);
         }
     }
+    
+    public String GetDoseWeek(String vaccname){
+       List<Vaccine> vaccine = new ArrayList<>();
+       vaccine = this.LoadVaccine();
+       String weeks="";
+               
+       for(int i=0;i<vaccine.size();i++){
+           if(vaccine.get(i).getVaccName().equals(vaccname)){
+               weeks = vaccine.get(i).getWeeksPerDose();
+           }
+       }
+       return weeks;
+    }
+    
 }

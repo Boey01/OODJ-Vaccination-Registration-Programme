@@ -240,10 +240,8 @@ public class PersonnelHomeScreen extends javax.swing.JFrame {
 
     private void btnAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAppointmentActionPerformed
      
-    new AppointmentGUI(loggedPS).setVisible(true);
     this.dispose();
-        
-        
+    new AppointmentGUI(loggedPS).setVisible(true);               
     }//GEN-LAST:event_btnAppointmentActionPerformed
 
     private void btnVaccineStorageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVaccineStorageActionPerformed

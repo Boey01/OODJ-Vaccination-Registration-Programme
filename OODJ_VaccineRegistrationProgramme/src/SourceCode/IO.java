@@ -16,7 +16,7 @@ public abstract class IO {
 	 */
         public static String path = "src/";
     	private String fileName;
-
+        
 	public IO(String fileName) {	
 	this.fileName = fileName;
         
