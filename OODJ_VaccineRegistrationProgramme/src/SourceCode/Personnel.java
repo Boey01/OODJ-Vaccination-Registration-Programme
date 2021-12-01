@@ -21,7 +21,7 @@ public class Personnel extends User {
 
     private String personnelID;
     public String contactNumber,Facility;
-    protected List<Personnel> pslist = new ArrayList<>();
+    private List<Personnel> pslist = new ArrayList<>();
 
     public Personnel() {
         super.setFileName("Personnel.txt");

@@ -224,6 +224,7 @@ public class Appointment extends IO {
         }
     }
     
+    @Override
     public String toString(){
         return apptID +"/"+Time+"/"+Date+"/"+Location+"/"+FacilityName+"/"+Status+"/"+RegisteredUser+"/"+usedVacc+"\n";
     }
