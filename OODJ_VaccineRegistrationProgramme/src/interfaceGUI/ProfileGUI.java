@@ -199,7 +199,7 @@ public class ProfileGUI extends javax.swing.JFrame {
          if(v.isValidPassword(pw)==true){
              if(v.isValidEmail(em)==true){
                  if(v.isValidName(name)==true){
-                     if(v.isValidPhoneNumber(pnumber)==true){
+                     if(v.isNumericOnly(pnumber)==true){
                         int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to change your profile info?","",JOptionPane.OK_CANCEL_OPTION);
                         if(input==0){
                             loggedPS.UpdatePersonnelProfile(un,pw,em,name,pnumber,facilityName);

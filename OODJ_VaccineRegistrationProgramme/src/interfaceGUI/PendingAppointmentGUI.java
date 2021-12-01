@@ -108,7 +108,7 @@ public class PendingAppointmentGUI extends javax.swing.JFrame {
         lblthePassport = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(false);
 
         txtSearch.setText("Search");

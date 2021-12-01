@@ -115,16 +115,16 @@ public class Appointment extends IO {
         String directory = super.getDirectory();
         int latest_apptid;
 
-        Read(directory); //load all users from text file
+        Read(directory); //load all appointments from text file
 
         if (applist.isEmpty()) {
-            latest_apptid = 1; // if it is first user, user id = 1
+            latest_apptid = 1; // if it is first appointment,id = 1
         } else {
 
-            int lastappt = applist.size() - 1; //get latest user record
+            int lastappt = applist.size() - 1; //get latest appointment record
 
-            latest_apptid = Integer.parseInt(applist.get(lastappt).getApptID()); //get id from the latest user record
-            latest_apptid += 1; //increment of user id
+            latest_apptid = Integer.parseInt(applist.get(lastappt).getApptID()); //get id from the latest appoitnment record
+            latest_apptid += 1; //increment of appointment id
         }
 
         this.apptID = Integer.toString(latest_apptid);

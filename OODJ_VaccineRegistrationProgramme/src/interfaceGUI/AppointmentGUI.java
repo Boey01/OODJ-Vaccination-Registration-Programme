@@ -15,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
@@ -158,7 +157,7 @@ public class AppointmentGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setAutoRequestFocus(false);
         setResizable(false);
 
@@ -392,9 +391,9 @@ public class AppointmentGUI extends javax.swing.JFrame {
                     .addComponent(btnCreateAppointment, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUpdateStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBack)
-                    .addComponent(jLabel1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(btnBack))
                 .addGap(14, 14, 14))
         );
 
@@ -435,7 +434,12 @@ public class AppointmentGUI extends javax.swing.JFrame {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         this.dispose();
-        new PersonnelHomeScreen(loggedPS.getUserID(), loggedPS.getUsername(), loggedPS.getPassword(), loggedPS.getEmail(), loggedPS.getFullname(), loggedPS.getAccType()).setVisible(true);
+        new PersonnelHomeScreen(loggedPS.getUserID(),
+                loggedPS.getUsername(), 
+                loggedPS.getPassword(), 
+                loggedPS.getEmail(), 
+                loggedPS.getFullname(), 
+                loggedPS.getAccType()).setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBackActionPerformed
 

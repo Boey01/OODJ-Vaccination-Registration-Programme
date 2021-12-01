@@ -141,7 +141,7 @@ public class PersonnelHomeScreen extends javax.swing.JFrame {
                 .addContainerGap(61, Short.MAX_VALUE))
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(false);
 
         lblWelcomeBack.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -245,7 +245,8 @@ public class PersonnelHomeScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAppointmentActionPerformed
 
     private void btnVaccineStorageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVaccineStorageActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        new VaccineStorageGUI(loggedPS).setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_btnVaccineStorageActionPerformed
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed

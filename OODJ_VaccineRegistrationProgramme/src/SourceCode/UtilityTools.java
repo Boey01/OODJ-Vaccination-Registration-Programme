@@ -80,7 +80,7 @@ public class UtilityTools {
       return content.matches(regex);
     }
     
-    public boolean isValidPhoneNumber(String content){
+    public boolean isNumericOnly(String content){
         if(content == null){
             return false;
         }
@@ -186,7 +186,7 @@ public class UtilityTools {
               return applist;  
     }
     
-    public void UpdateVaccineQuantity(String type, String vaccine ){
+    public void UpdateVaccineQuantity(String type, String vaccine ){ //update the vaccine storage quantity by the dose needed per person
         List<Vaccine> vaclist = new ArrayList<>();
         ArrayList<String> vaccrecords = new ArrayList<>();
         int dosecount=0;
@@ -221,9 +221,57 @@ public class UtilityTools {
                 if(type=="-"){quantity = quantity - dosecount;}
                 String newQuantity = String.valueOf(quantity);
                  
+                vaclist.get(i).setQuantity(newQuantity);              
+                Vaccine changedquantityvaccine = vaclist.get(i);
+
+                vaccrecords.add(vaclist.get(i).toString()); //add the modified records into string arraylist
+
+            } else {
+                vaccrecords.add(vaclist.get(i).toString()); //add normal unchanged records
+            }
+        }
+
+        try {
+            FileWriter writer = new FileWriter("src/vaccine.txt");
+            for (String str : vaccrecords) {  //write whole string arraylist into the file
+                writer.write(str);
+            }
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+    
+     public void UpdateVaccineQuantity(String type, int n, String vaccine){ //update vaccine storage quantity with precise amount
+        List<Vaccine> vaclist = new ArrayList<>();
+        ArrayList<String> vaccrecords = new ArrayList<>();
+   //load all vaccine info into objectlist
+             try {
+            BufferedReader br = new BufferedReader(new FileReader("src/vaccine.txt"));
+            String currentline;
+
+            while ((currentline = br.readLine()) != null) {
+                String[] line = currentline.split("/");
+                vaclist.add(new Vaccine(line[0], line[1], line[2],line[3],line[4]));
+
+            }
+
+            br.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        for (int i = 0; i < vaclist.size(); i++) {
+            if (vaclist.get(i).getVaccName().equals(vaccine)) {
+                int quantity = Integer.parseInt(vaclist.get(i).getQuantity());
+                if(type=="+"){quantity = quantity + n;}
+                if(type=="-"){quantity = quantity - n;}
+                String newQuantity = String.valueOf(quantity);
+
                 vaclist.get(i).setQuantity(newQuantity);
                 Vaccine changedquantityvaccine = vaclist.get(i);
-                
+
 
                 vaccrecords.add(vaclist.get(i).toString()); //add the modified records into string arraylist
 
