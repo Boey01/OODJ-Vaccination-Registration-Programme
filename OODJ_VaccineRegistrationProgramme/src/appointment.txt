@@ -1,3 +1,4 @@
 1/18/2021-12-29/Penang/DEWAN PERDA CONVENTION CENTRE/Second Dose/2/Sinovac
 2/5/2021-12-08/Penang/DEWAN PERDA CONVENTION CENTRE/First Dose/3/AstraZeneca
 3/12/2022-01-11/Penang/DEWAN PERDA CONVENTION CENTRE/Done/1/Pfizer
+4/18/2021-12-30/Kuala Lumpur/KLCC Convention Centre/Second Dose/2/AstraZeneca

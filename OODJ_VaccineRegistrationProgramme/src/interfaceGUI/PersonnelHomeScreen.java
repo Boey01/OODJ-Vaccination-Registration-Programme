@@ -79,6 +79,7 @@ public class PersonnelHomeScreen extends javax.swing.JFrame {
         btnVaccineStorage = new javax.swing.JButton();
         btnLogOut = new javax.swing.JButton();
 
+        testdialog.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         testdialog.setSize(new java.awt.Dimension(420, 240));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N

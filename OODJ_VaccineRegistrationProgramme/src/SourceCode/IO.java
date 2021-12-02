@@ -34,7 +34,7 @@ public abstract class IO {
            return path+fileName;
         }
                 
-        public void Write(String file){};
-        public void Read(String file){};
+        abstract void Write(String file);
+        abstract void Read(String file);
 	
 }

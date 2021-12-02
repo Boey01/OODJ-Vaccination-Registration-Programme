@@ -92,7 +92,8 @@ public class Personnel extends User {
     public void RegisterNewPersonnel(){
         String directory = super.getDirectory();
             int latest_psid;
-
+            Read(directory);
+            
             if (pslist.isEmpty()) {
                 latest_psid = 1; // if it is first personnel, ps id = 1
             } else {
@@ -114,7 +115,9 @@ public class Personnel extends User {
         String loggedID = this.getUserID();
         List<String> Usersrecord = new ArrayList<String>();
         List<String> Personnelrecord = new ArrayList<String>();
-
+        
+        userlist.clear();
+        pslist.clear();
 
         super.Read(dircUsr);
         this.Read(dircPers);

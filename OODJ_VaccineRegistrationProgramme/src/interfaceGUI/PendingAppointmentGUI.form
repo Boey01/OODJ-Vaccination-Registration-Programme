@@ -45,11 +45,9 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="lblAppointmentID" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblFullname" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblPassport" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblthePassport" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lbltheFullname" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lbltheAppointmentID" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -83,12 +81,7 @@
                           <Component id="lblFullname" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lbltheFullname" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblPassport" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblthePassport" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                       <Component id="lblTime" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="comboTime" min="-2" max="-2" attributes="0"/>
@@ -229,16 +222,6 @@
     <Component class="javax.swing.JLabel" name="lblFullname">
       <Properties>
         <Property name="text" type="java.lang.String" value="Full Name:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblPassport">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Passport:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblthePassport">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="passport"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnBack">

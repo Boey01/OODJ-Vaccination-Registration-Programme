@@ -104,8 +104,6 @@ public class PendingAppointmentGUI extends javax.swing.JFrame {
         lbltheAppointmentID = new javax.swing.JLabel();
         lbltheFullname = new javax.swing.JLabel();
         lblFullname = new javax.swing.JLabel();
-        lblPassport = new javax.swing.JLabel();
-        lblthePassport = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -184,10 +182,6 @@ public class PendingAppointmentGUI extends javax.swing.JFrame {
 
         lblFullname.setText("Full Name:");
 
-        lblPassport.setText("Passport:");
-
-        lblthePassport.setText("passport");
-
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -218,11 +212,9 @@ public class PendingAppointmentGUI extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblAppointmentID)
-                                    .addComponent(lblFullname)
-                                    .addComponent(lblPassport))
+                                    .addComponent(lblFullname))
                                 .addGap(10, 10, 10)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblthePassport)
                                     .addComponent(lbltheFullname)
                                     .addComponent(lbltheAppointmentID)))))
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -247,11 +239,7 @@ public class PendingAppointmentGUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblFullname)
                             .addComponent(lbltheFullname))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblPassport)
-                            .addComponent(lblthePassport))
-                        .addGap(18, 18, 18)
+                        .addGap(38, 38, 38)
                         .addComponent(lblTime)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(comboTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -416,13 +404,11 @@ public class PendingAppointmentGUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblAppointmentID;
     private javax.swing.JLabel lblDate;
     private javax.swing.JLabel lblFullname;
-    private javax.swing.JLabel lblPassport;
     private javax.swing.JLabel lblTime;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblVaccine;
     private javax.swing.JLabel lbltheAppointmentID;
     private javax.swing.JLabel lbltheFullname;
-    private javax.swing.JLabel lblthePassport;
     private javax.swing.JTable tblAppointment;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables

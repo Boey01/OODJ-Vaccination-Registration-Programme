@@ -20,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import vaccinesystem.People;
 
 public class User extends IO {
 
@@ -134,8 +135,10 @@ public class User extends IO {
                         break;
 
                     case "People":
-                        System.out.println("Account found, People!");
-                        //code to open people GUI here
+                        
+                        new People().setVisible(true);
+                        LogActivity("Login",userlist.get(i).userID,userlist.get(i).AccType);
+                        
                         break;
                     default:
                         System.out.println("Invalid account type!");
